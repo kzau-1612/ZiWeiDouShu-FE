@@ -1,0 +1,133 @@
+.la-so-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: sans-serif;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+.thong-tin-chung {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.thong-tin-chung h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.thong-tin-ca-nhan {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 10px 20px;
+  margin-top: 15px;
+  text-align: left;
+}
+
+.thong-tin-ca-nhan span {
+  font-weight: bold;
+  color: #555;
+}
+
+.ban-do-la-so {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* 6 cột cho 12 cung */
+  grid-template-rows: repeat(2, 1fr);
+  gap: 10px;
+  width: 90%;
+  max-width: 1200px;
+}
+
+.cung {
+  background-color: #e0f7fa;
+  border: 1px solid #b2ebf2;
+  border-radius: 6px;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cung-menh {
+  background-color: #ffe0b2; /* Màu đặc biệt cho cung Mệnh */
+  border-color: #ffcc80;
+}
+
+.empty-cung {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px;
+  text-align: center;
+}
+
+.cung h3 {
+  font-size: 1.1em;
+  margin-bottom: 5px;
+  color: #00796b;
+}
+
+.temples {
+  font-size: 0.9em;
+  color: #777;
+  margin-bottom: 5px;
+}
+
+.stars p {
+  margin: 2px 0;
+  font-size: 0.95em;
+}
+
+.major-stars {
+  font-weight: bold;
+  color: #333;
+}
+
+.minor-stars {
+  color: #555;
+}
+
+.mini-stars {
+  color: #777;
+}
+
+.misc-stars {
+  color: #999;
+}
+
+.age-range {
+  font-size: 0.85em;
+  color: #26a69a;
+  margin-top: 5px;
+}
+
+.life-stage {
+  font-size: 0.85em;
+  font-style: italic;
+  color: #5e35b1;
+}
+
+/* Điều chỉnh layout cho màn hình nhỏ hơn */
+@media (max-width: 768px) {
+  .ban-do-la-so {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .ban-do-la-so {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(6, auto);
+  }
+  .thong-tin-ca-nhan {
+    grid-template-columns: auto;
+    text-align: center;
+  }
+}
