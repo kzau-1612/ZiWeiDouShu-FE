@@ -63,14 +63,14 @@ const App: React.FC = () => {
 
     try {
       // Chọn API dựa trên calendarType
-      // const apiUrl =
-      //   formData.calendarType === "lunar"
-      //     ? "https://ziweidoushu-api.vercel.app/api/ziweidoushu/lunar"
-      //     : "https://ziweidoushu-api.vercel.app/api/ziweidoushu/solar";
       const apiUrl =
         formData.calendarType === "lunar"
-          ? "http://localhost:3000/api/ziweidoushu/lunar"
-          : "http://localhost:3000/api/ziweidoushu/solar";
+          ? "https://ziweidoushu-api.vercel.app/api/ziweidoushu/lunar"
+          : "https://ziweidoushu-api.vercel.app/api/ziweidoushu/solar";
+      // const apiUrl =
+      //   formData.calendarType === "lunar"
+      //     ? "http://localhost:3000/api/ziweidoushu/lunar"
+      //     : "http://localhost:3000/api/ziweidoushu/solar";
 
       // Chuẩn bị dữ liệu gửi đi dựa trên loại lịch
       const requestBody =
