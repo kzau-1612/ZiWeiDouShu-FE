@@ -1,5 +1,5 @@
 // App.tsx
-import React, { useState, FormEvent, useEffect } from "react";
+import React, { useState, FormEvent, useEffect, ChangeEvent } from "react";
 import DestinyChart from "./components/DestinyChart";
 import "./App.css";
 import ChatBot from "./components/Chatbot";
@@ -30,12 +30,21 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [analysis, setAnalysis] = useState<string | null>(null);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value, type, checked } = event.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const target = event.target;
+    const { name, value, type } = target;
+
+    if (target instanceof HTMLInputElement && type === "checkbox") {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: target.checked,
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = async (event: FormEvent) => {
@@ -50,8 +59,8 @@ const App: React.FC = () => {
       // Chọn API dựa trên calendarType
       const apiUrl =
         formData.calendarType === "lunar"
-          ? "http://localhost:3000/api/ziweidoushu/lunar"
-          : "http://localhost:3000/api/ziweidoushu/solar";
+          ? "https://ziweidoushu-api.vercel.app/api/ziweidoushu/lunar"
+          : "https://ziweidoushu-api.vercel.app/api/ziweidoushu/solar";
 
       // Chuẩn bị dữ liệu gửi đi dựa trên loại lịch
       const requestBody =

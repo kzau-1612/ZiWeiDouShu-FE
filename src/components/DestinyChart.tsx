@@ -202,9 +202,8 @@ const DestinyChart: React.FC<DestinyChartProps> = ({ chartData, analysis }) => {
   };
 
   const translate = (term: string): string => {
-    return translationMap[term] || term;
+    return translationMap[term as keyof typeof translationMap] || term;
   };
-
   const translatedChartData: { [key: string]: CellData } = {};
   for (const ground in chartData) {
     if (chartData.hasOwnProperty(ground)) {
