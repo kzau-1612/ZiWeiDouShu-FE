@@ -209,8 +209,8 @@ const App: React.FC = () => {
           onChange={handleChartTypeChange}
           required
         >
-          <option value="GROUND">Thiên Bàn</option>
-          <option value="SKY">Địa Bàn</option>
+          <option value="SKY">Thiên Bàn</option>
+          <option value="GROUND">Địa Bàn</option>
           <option value="HUMAN">Nhân Bàn</option>
         </select>
         <button
@@ -225,7 +225,13 @@ const App: React.FC = () => {
       {loading && <p>Đang xử lý...</p>}
       {error && <p className="text-red-500">Lỗi: {error}</p>}
 
-      {translatedResult && <DestinyChart chartData={translatedResult.cells} analysis={analysis} />}
+      {translatedResult && (
+        <DestinyChart
+          chartData={translatedResult.cells}
+          analysis={analysis}
+          info={translatedResult}
+        />
+      )}
       {parsedResult && <ChatBot generatedResult={parsedResult} />}
     </div>
   );
