@@ -10,6 +10,7 @@ interface FormData {
   day: string;
   isLeapMonth: boolean;
   bornTimeName: string;
+
   gender: "male" | "female";
   calendarType: "lunar" | "solar"; // Thêm trường để chọn loại lịch
 }
@@ -29,6 +30,11 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [analysis, setAnalysis] = useState<string | null>(null);
+  const [selectedChartType, setSelectedChartType] = useState<string>("天盤");
+
+  const handleChartTypeChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedChartType(event.target.value);
+  };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const target = event.target;
@@ -57,10 +63,14 @@ const App: React.FC = () => {
 
     try {
       // Chọn API dựa trên calendarType
+      // const apiUrl =
+      //   formData.calendarType === "lunar"
+      //     ? "https://ziweidoushu-api.vercel.app/api/ziweidoushu/lunar"
+      //     : "https://ziweidoushu-api.vercel.app/api/ziweidoushu/solar";
       const apiUrl =
         formData.calendarType === "lunar"
-          ? "https://ziweidoushu-api.vercel.app/api/ziweidoushu/lunar"
-          : "https://ziweidoushu-api.vercel.app/api/ziweidoushu/solar";
+          ? "http://localhost:3000/api/ziweidoushu/lunar"
+          : "http://localhost:3000/api/ziweidoushu/solar";
 
       // Chuẩn bị dữ liệu gửi đi dựa trên loại lịch
       const requestBody =
@@ -72,6 +82,7 @@ const App: React.FC = () => {
               isLeapMonth: formData.isLeapMonth,
               bornTimeName: formData.bornTimeName,
               gender: formData.gender,
+              configType: selectedChartType, // Thêm loại bàn vào request body
             }
           : {
               year: formData.year,
@@ -79,6 +90,7 @@ const App: React.FC = () => {
               day: formData.day,
               bornTimeName: formData.bornTimeName,
               gender: formData.gender,
+              configType: selectedChartType, // Thêm loại bàn vào request body
             };
 
       const response = await fetch(apiUrl, {
@@ -190,6 +202,16 @@ const App: React.FC = () => {
         <select name="gender" value={formData.gender} onChange={handleChange} required>
           <option value="male">Nam</option>
           <option value="female">Nữ</option>
+        </select>
+        <select
+          name="chartType"
+          value={selectedChartType}
+          onChange={handleChartTypeChange}
+          required
+        >
+          <option value="GROUND">Thiên Bàn</option>
+          <option value="SKY">Địa Bàn</option>
+          <option value="HUMAN">Nhân Bàn</option>
         </select>
         <button
           type="submit"

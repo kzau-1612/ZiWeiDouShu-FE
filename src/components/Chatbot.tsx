@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import ReactMarkdown from "react-markdown";
 
 interface ChatMessage {
   user: string;
@@ -38,7 +39,6 @@ const ChatBot = ({ generatedResult }: { generatedResult: string | null }) => {
   useEffect(() => {
     if (generatedResult && chatHistory.length === 0 && !isLoading) {
       setChatHistory([{ user: "Thông tin lá số", bot: "Đang phân tích..." }]);
-      console.log(`Phân tích lá số tử vi sau đây: ${generatedResult}`);
       getGeminiResponse(`Phân tích lá số tử vi sau đây: ${JSON.stringify(generatedResult)}`);
     }
   }, [generatedResult, chatHistory, isLoading]); // Include dependencies
@@ -53,16 +53,11 @@ const ChatBot = ({ generatedResult }: { generatedResult: string | null }) => {
               <p className="message userMessage">
                 <b>Thông tin:</b> {chat.user}
               </p>
-              <p className="message botMessage">
+              <div className="message botMessage">
                 <b>Phân tích:</b>
                 <br />
-                {chat.bot.split("\n").map((line, i) => (
-                  <span key={i}>
-                    {line}
-                    <br />
-                  </span>
-                ))}
-              </p>
+                <ReactMarkdown>{chat.bot}</ReactMarkdown>
+              </div>
             </div>
           ))}
         </div>
