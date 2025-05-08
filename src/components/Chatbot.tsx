@@ -11,7 +11,7 @@ const ChatBot = ({ generatedResult }: { generatedResult: string | null }) => {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const genAI = new GoogleGenerativeAI(import.meta.env.VITE_API_KEY);
+  const genAI = new GoogleGenerativeAI(import.meta.env.VITE_API_CLIENT);
   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
   const getGeminiResponse = async (prompt: string) => {
