@@ -1,22 +1,64 @@
 import React from "react";
 
+// Define the structure for cell data as it appears in the raw info.cells array
+interface RawCellData {
+  sky: string;
+  ground: string;
+  temples: string[]; // Original Chinese temple names
+  majorStars: string[]; // Original Chinese star names
+  minorStars: string[]; // Original Chinese star names
+  miniStars: string[]; // Original Chinese star names
+  miscStars: string[]; // Original Chinese star names
+  ageStart?: number;
+  ageEnd?: number;
+  lifeStage?: string; // Original Chinese life stage name
+}
+// Define the structure for the raw info data
+interface RawInfoData {
+  config?: {
+    // Making config and its properties optional as they might vary
+    year?: number;
+    month?: number;
+    day?: number;
+    isLeapMonth?: boolean;
+    yearSky?: string;
+    yearGround?: string;
+    monthSky?: string;
+    monthGround?: string;
+    daySky?: string;
+    dayGround?: string;
+    bornTimeGround?: string; // e.g., "丑時" or "早子時"
+    configType?: string; // e.g., "天盤"
+    gender?: string; // e.g., "男"
+  };
+  element?: string; // e.g., "金四局"
+  destinyMaster?: string; // e.g., "破軍"
+  bodyMaster?: string; // e.g., "火星"
+  startControl?: string; // e.g., "卯"
+  cells?: RawCellData[]; // Explicitly define cells as an array of RawCellData
+  bornStarDerivativeMap?: { [key: string]: string }; // e.g., { "祿": "天梁", ...}
+  // Add an index signature to allow indexing with a string
+  [key: string]: any; // <-- Added this line
+}
+
 interface CellData {
   sky: string;
   ground: string;
-  temples: string[];
-  majorStars: string[];
-  minorStars: string[];
-  miniStars: string[];
-  miscStars: string[];
+  temples: string[]; // Translated temple names
+  majorStars: string[]; // Translated star names
+  minorStars: string[]; // Translated star names
+  miniStars: string[]; // Translated star names
+  miscStars: string[]; // Translated star names
   ageStart?: number;
   ageEnd?: number;
-  lifeStage?: string;
+  lifeStage?: string; // Translated life stage name
 }
 
+// Update the main component's props interface
 interface DestinyChartProps {
-  chartData: { [key: string]: CellData }; // Object map tên cung với dữ liệu
+  chartData: { [key: string]: CellData }; // Object map translated cung name with translated data
   analysis: string | null;
-  info: { [key: string]: string };
+  info: RawInfoData; // Use the more specific type for info
 }
 
 const translationMap = {
@@ -287,7 +329,9 @@ const DestinyChart: React.FC<DestinyChartProps> = ({ chartData, analysis, info }
     translatedChartData[thanCungTranslated]
   ) {
     // Find which ground Thân Cung is on from the original info.cells
-    const thanCungGround = info.cells?.find((cell: any) => cell.temples.includes("身宮"))?.ground;
+    const thanCungGround = (Array.isArray(info.cells) ? info.cells : [])?.find(
+      (cell: RawCellData) => cell.temples.includes("身宮")
+    )?.ground;
     if (thanCungGround) {
       const thanCungGroundTranslated = translate(thanCungGround);
       // Find the translated cung name that is on this ground
@@ -302,7 +346,6 @@ const DestinyChart: React.FC<DestinyChartProps> = ({ chartData, analysis, info }
       }
     }
   }
-
   // Mark the center area for info
   grid[1][1] = "INFO";
   grid[1][2] = "INFO";
@@ -310,7 +353,8 @@ const DestinyChart: React.FC<DestinyChartProps> = ({ chartData, analysis, info }
   grid[2][2] = "INFO";
 
   // Function to render the information block in the center
-  const renderInfoBlock = (info: DestinyChartProps["info"]) => {
+  const renderInfoBlock = (info: RawInfoData) => {
+    // Use RawInfoData type here
     const filteredInfo: { [key: string]: any } = {};
     for (const key in info) {
       if (
